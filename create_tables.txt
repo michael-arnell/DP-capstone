@@ -3,15 +3,18 @@ CREATE TABLE IF NOT EXISTS Users (
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
     city TEXT,
     state TEXT,
     postal_code TEXT,
     phone TEXT,
+    user_type TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Competencies (
     compentency_id INTEGER PRIMARY KEY AUTOINCREMENT,
     compentency_name TEXT NOT NULL
+    date_created TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Assessments (
