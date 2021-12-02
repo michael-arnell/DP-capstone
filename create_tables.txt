@@ -1,0 +1,28 @@
+CREATE TABLE IF NOT EXISTS Users (
+    user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    city TEXT,
+    state TEXT,
+    postal_code TEXT,
+    phone TEXT,
+);
+
+CREATE TABLE IF NOT EXISTS Competencies (
+    compentency_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    compentency_name TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Assessments (
+    assessment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    compentency_id INTEGER NOT NULL,
+    max_score INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Assessment_Results (
+    user_id INTEGER,
+    assessment_id INTEGER,
+    score INTEGER,
+    date_taken TEXT
+);
