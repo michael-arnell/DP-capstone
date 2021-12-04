@@ -1,10 +1,7 @@
 import sqlite3
-import datetime
 import csv
-import bcrypt
 from user import *
 from manager import *
-from getpass import getpass
 
 connection = sqlite3.connect('comp_tracker.db')
 cursor = connection.cursor()
@@ -35,7 +32,7 @@ elif (current_user.user_type) == 'manager':
         if menu_choice == 'V':
             report_choice = None
             while report_choice != 'B':
-                report_choice = input('''\nPlease select the record type you would like to add:
+                report_choice = input('''\nPlease select the report you would like to view:
 
 (A)ll users
 (C)ompetency
@@ -46,7 +43,7 @@ elif (current_user.user_type) == 'manager':
                     current_user.view_users(cursor)
                 elif report_choice == 'S':
                     current_user.view_user(cursor)
-        if menu_choice == 'A':
+        elif menu_choice == 'A':
             record_choice = None
             while record_choice != 'B':
                 record_choice = input('''\nPlease select the record type you would like to add:
@@ -58,3 +55,9 @@ elif (current_user.user_type) == 'manager':
 (B)ack to Main Menu\n''').upper()
                 if record_choice == 'U':
                     current_user.add_user(cursor, connection)
+                elif record_choice == 'C':
+                    current_user.add_competency(cursor,connection)
+                elif record_choice == 'A':
+                    current_user.add_assessment(cursor,connection)
+                elif record_choice == 'R':
+                    current_user.add_assessment_result(cursor,connection)

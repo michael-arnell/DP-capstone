@@ -12,28 +12,26 @@ CREATE TABLE IF NOT EXISTS Users (
 );
 
 CREATE TABLE IF NOT EXISTS Competencies (
-    compentency_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    compentency_name TEXT NOT NULL,
+    competency_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    competency_name TEXT NOT NULL,
     date_created TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Assessments (
     assessment_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    compentency_id INTEGER NOT NULL,
-    max_score INTEGER NOT NULL,
-    FOREIGN KEY (compentency_id) REFERENCES Competencies (compentency_id)
+    competency_id INTEGER NOT NULL,
+    assessment_name TEXT NOT NULL,
+    FOREIGN KEY (competency_id) REFERENCES Competencies (competency_id)
 );
 
 CREATE TABLE IF NOT EXISTS Assessment_Results (
-    user_id INTEGER,
-    assessment_id INTEGER,
-    score INTEGER,
-    date_taken TEXT,
+    user_id INTEGER NOT NULL,
+    assessment_id INTEGER NOT NULL,
+    score INTEGER NOT NULL,
+    date_taken TEXT NOT NULL,
     manager_id INTEGER,
     PRIMARY KEY (user_id, assessment_id),
     FOREIGN KEY (user_id) REFERENCES Users (user_id),
     FOREIGN KEY (assessment_id) REFERENCES Assessments (assessment_id),
     FOREIGN KEY (manager_id) REFERENCES Users (user_id)
 );
-
-insert into Users (first_name,last_name,email,password,user_type) values ('Michael', 'Arnell', 'marnell@gmail.com','mipass','user');

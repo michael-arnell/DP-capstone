@@ -43,6 +43,7 @@ class User:
     def change_password(self, new_password, cursor, connection):
         if new_password:
             new_password = bcrypt.hashpw(new_password.encode('utf-8'), self.salt)
+            print(new_password)
             query = 'update Users set password = ? where user_id = ?'
             values = (new_password, self.user_id)
             cursor.execute(query, values)
