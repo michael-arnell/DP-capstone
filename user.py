@@ -1,5 +1,6 @@
 import bcrypt
 from getpass import getpass
+from os import system, name
 
 class User:
     def __init__(self):
@@ -26,6 +27,12 @@ class User:
         self.postal_code = postal_code
         self.phone = phone
         self.user_type = user_type
+    
+    def clear(self):
+        if name in ('nt','dos'):
+            _ = system('cls')
+        else:
+            _ = system('clear')
     
     def login(self, cursor):
         username = input('Username: ')
