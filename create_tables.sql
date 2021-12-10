@@ -37,23 +37,23 @@ CREATE TABLE IF NOT EXISTS Assessment_Results (
 );
 
 INSERT INTO Users (first_name, last_name, email, password, user_type) VALUES (
-    'Andrew', 'Fletcher', 'afletch', '$2b$12$609fYeYkyB5GVhjhcN4ZXu7OYUFX7Kp4CNQYxUyiHJGOis/Qxj1Va', 'user'
+    'Andrew', 'Fletcher', 'afletch@gmail.com', '$2b$12$609fYeYkyB5GVhjhcN4ZXu7OYUFX7Kp4CNQYxUyiHJGOis/Qxj1Va', 'user'
 );
 
 INSERT INTO Users (first_name, last_name, email, password, user_type) VALUES (
-    'MollyKate', 'Greenhalgh', 'mkgreen', '$2b$12$609fYeYkyB5GVhjhcN4ZXu7OYUFX7Kp4CNQYxUyiHJGOis/Qxj1Va', 'user'
+    'MollyKate', 'Greenhalgh', 'mkgreen@gmail.com', '$2b$12$609fYeYkyB5GVhjhcN4ZXu7OYUFX7Kp4CNQYxUyiHJGOis/Qxj1Va', 'user'
 );
 
 INSERT INTO Users (first_name, last_name, email, password, user_type) VALUES (
-    'Andrew', 'Blonquist', 'ablon', '$2b$12$609fYeYkyB5GVhjhcN4ZXu7OYUFX7Kp4CNQYxUyiHJGOis/Qxj1Va', 'user'
+    'Andrew', 'Blonquist', 'ablon@gmail.com', '$2b$12$609fYeYkyB5GVhjhcN4ZXu7OYUFX7Kp4CNQYxUyiHJGOis/Qxj1Va', 'user'
 );
 
 INSERT INTO Users (first_name, last_name, email, password, user_type) VALUES (
-    'Ammon', 'Roy', 'aroy', '$2b$12$609fYeYkyB5GVhjhcN4ZXu7OYUFX7Kp4CNQYxUyiHJGOis/Qxj1Va', 'user'
+    'Ammon', 'Roy', 'aroy@gmail.com', '$2b$12$609fYeYkyB5GVhjhcN4ZXu7OYUFX7Kp4CNQYxUyiHJGOis/Qxj1Va', 'user'
 );
 
 INSERT INTO Users (first_name, last_name, email, password, user_type) VALUES (
-    'Jordan', 'Howard', 'jhow', '$2b$12$609fYeYkyB5GVhjhcN4ZXu7OYUFX7Kp4CNQYxUyiHJGOis/Qxj1Va', 'user'
+    'Jordan', 'Howard', 'jhow@gmail.com', '$2b$12$609fYeYkyB5GVhjhcN4ZXu7OYUFX7Kp4CNQYxUyiHJGOis/Qxj1Va', 'user'
 );
 
 INSERT INTO Competencies (competency_name, date_created) VALUES (

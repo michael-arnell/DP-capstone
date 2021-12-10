@@ -22,16 +22,65 @@ print('\nWelcome ' + current_user.first_name + ' ' + current_user.last_name + '.
 menu_choice = None
 if current_user.user_type == 'user':
     current_user.clear()
+    while menu_choice != 'E':
+        menu_choice = input('''\nPlease select an action to take:
+
+(V)iew my data
+(M)odify my personal information
+(E)xit application\n''').upper()
+        if menu_choice == 'V':
+            current_user.clear()
+            report_choice = None
+            while report_choice != 'B':
+                report_choice = input('''\nPlease select the report you would like to view:
+            
+(1) My Competencies
+(2) My Assessment Results
+(B)ack to Main Menu\n''').upper()
+                if report_choice == '1':
+                    current_user.clear()
+                    current_user.view_my_competencies(cursor)
+                elif report_choice == '2':
+                    current_user.clear()
+                    current_user.view_my_assessments(cursor)
+        if menu_choice == 'M':
+            current_user.clear()
+            field_choice = None
+            while field_choice != 'B':
+                field_choice = input('''\nPlease select the field you would like to modify:
+            
+(F)irst Name
+(L)ast Name
+(E)mail address
+(P)assword
+(B)ack to Main Menu\n''').upper()
+                if field_choice == 'F':
+                    current_user.clear()
+                    new_firstname = input('\nPlease enter your updated first name: ')
+                    current_user.change_first_name(new_firstname,cursor,connection)
+                elif field_choice == 'L':
+                    current_user.clear()
+                    new_lastname = input('\nPlease enter your updated last name: ')
+                    current_user.change_last_name(new_lastname,cursor,connection)
+                elif field_choice == 'E':
+                    current_user.clear()
+                    new_email = input('\nPlease enter your updated email address: ')
+                    current_user.change_email(new_email,cursor,connection)
+                elif field_choice == 'P':
+                    current_user.clear()
+                    new_password = input('\nPlease enter your updated password: ')
+                    current_user.change_password(new_password,cursor,connection)
 elif (current_user.user_type) == 'manager':
     current_user.clear()
     while menu_choice != 'E':
         menu_choice = input('''\nPlease select an action to take:
 
 (A)dd a record
-(M)odify or delete an existing record
+(M)odify  an existing record
 (D)elete an assessment result
 (I)mport assessment results from csv
 (V)iew a report
+E(X)port a table
 (E)xit application\n''').upper()
         if menu_choice == 'V':
             current_user.clear()
@@ -39,12 +88,12 @@ elif (current_user.user_type) == 'manager':
             while report_choice != 'B':
                 report_choice = input('''\nPlease select the report you would like to view:
 
-(1) All users
-(2) Single user profile
-(3) All competencies by user
-(4) Single competency for all users
-(5) All competencies for a single user
-(6) All assessment results for a single user
+(1) All Users
+(2) Single User Profile
+(3) All Competencies by User
+(4) Competency Results Summary
+(5) User Competency Summary
+(6) User Assessment Results
 (B)ack to Main Menu\n''').upper()
                 if report_choice == '1':
                     current_user.clear()
@@ -116,3 +165,22 @@ elif (current_user.user_type) == 'manager':
         elif menu_choice == 'D':
             current_user.clear()
             current_user.delete_assessment_result(cursor,connection)
+        elif menu_choice == 'X':
+                    current_user.clear()
+                    report_choice = None
+                    while report_choice != 'B':
+                        report_choice = input('''\nPlease select the table you would like to export:
+
+        (U)sers
+        (C)ompetencies
+        (A)ssessments
+        (B)ack to Main Menu\n''').upper()
+                        if report_choice == 'U':
+                            current_user.clear()
+                            current_user.export_users_table(cursor)
+                        elif report_choice == 'C':
+                            current_user.clear()
+                            current_user.export_competencies_table(cursor)
+                        elif report_choice == 'A':
+                            current_user.clear()
+                            current_user.export_assessments_table(cursor)

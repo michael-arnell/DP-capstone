@@ -1,6 +1,7 @@
 import bcrypt
 from getpass import getpass
 from os import system, name
+from datetime import datetime
 
 class User:
     def __init__(self):
@@ -47,31 +48,116 @@ class User:
                 self.get_user(user_id, first_name, last_name, email, city, state, postal_code, phone, user_type)
                 return True
 
+    def view_user(self, cursor, user_choice = None):
+        user_id = user_choice
+        if not user_id:
+            user_id = input('Please enter the User ID of the user you would like to view: ')
+        values = (user_id,)
+        query = 'SELECT user_id, first_name, last_name, email, city, state, postal_code, phone, user_type from Users where user_id = ?;'
+        user = cursor.execute(query, values).fetchone()
+        user_id, first_name, last_name, email, city, state, postal_code, phone, user_type = user
+        print(f'''\n1 First Name:  {first_name}
+2 Last Name:   {last_name}
+3 Email:       {email}
+4 City:        {city}
+5 State:       {state}
+6 Postal Code: {postal_code}
+7 Phone:       {phone}
+8 User Type:   {user_type}
+        ''')
+        return {
+            '1':'first_name',
+            '2':'last_name',
+            '3':'email',
+            '4':'city',
+            '5':'state',
+            '6':'postal_code',
+            '7':'phone',
+            '8':'user_type'
+        }
+
     def change_password(self, new_password, cursor, connection):
         if new_password:
             new_password = bcrypt.hashpw(new_password.encode('utf-8'), self.salt)
-            print(new_password)
             query = 'update Users set password = ? where user_id = ?'
             values = (new_password, self.user_id)
             cursor.execute(query, values)
             connection.commit()
+            print('\nYour information has been updated.')
+        else:
+            print('\nPlease try again.\n')
 
-    def change_first_name(self,new_firstname):
+    def change_first_name(self,new_firstname, cursor, connection):
         if new_firstname:
             self.first_name = new_firstname
+            query = 'update Users set first_name = ? where user_id = ?'
+            values = (new_firstname, self.user_id)
+            cursor.execute(query, values)
+            connection.commit()
+            self.view_user(cursor, self.user_id)
+            print('\nYour information has been updated. See above for reference.')
+        else:
+            print('\nPlease try again.\n')
 
-    def change_last_name(self,new_lastname):
+    def change_email(self,new_email,cursor,connection):
+        if new_email:
+            self.email = new_email
+            query = 'update Users set email = ? where user_id = ?'
+            values = (new_email, self.user_id)
+            cursor.execute(query, values)
+            connection.commit()
+            self.view_user(cursor, self.user_id)
+            print('\nYour information has been updated. See above for reference.')
+        else:
+            print('\nPlease try again.\n')
+
+    def change_last_name(self,new_lastname, cursor, connection):
         if new_lastname:
             self.last_name = new_lastname
+            query = 'update Users set last_name = ? where user_id = ?'
+            values = (new_lastname, self.user_id)
+            cursor.execute(query, values)
+            connection.commit()
+            self.view_user(cursor, self.user_id)
+            print('\nYour information has been updated. See above for reference.')
+        else:
+            print('\nPlease try again.\n')
 
-    def view_competencies(self,query,values):
-        query = 'SELECT c.competency_name, AVG(ar.score) \
+    def view_my_competencies(self,cursor):
+        query = 'SELECT u.first_name, u.last_name, c.competency_name, ar.score \
                 FROM Users u \
-                INNER JOIN Assessment_Results ar ON u.user_id = ar.user_id \
-                INNER JOIN Assessments a on ar.assessment_id = a.assessment_id \
-                INNER JOIN Competencies c on a.competency_id = c.competency_id \
-                WHERE u.user_id = ?'
-        values = (self.user_id)
+                LEFT OUTER JOIN Assessment_Results ar \
+                ON u.user_id = ar.user_id \
+                INNER JOIN Assessments a \
+                ON ar.assessment_id = a.assessment_id \
+                INNER JOIN Competencies c \
+                ON a.competency_id = c.competency_id \
+                WHERE u.user_id = ? \
+                ORDER BY ar.date_taken DESC \
+                LIMIT 1;'
+        values = (self.user_id,)
+        rows = cursor.execute(query, values).fetchall()
+        print('''\nFirst Name      Last Name       Competency Name       Current Competency Level (0-4)
+-------------------------------------------------------------------------------------''')
+        for idx in range(len(rows)):
+            first_name, last_name, competency_name, score = rows[idx]
+            print(f'{first_name:<16}{last_name:<16}{competency_name:<24}{score:^10}')
 
-    def view_assessments(self,query,values):
-        pass
+    def view_my_assessments(self,cursor):
+        values = (self.user_id,)
+        query = 'SELECT u.first_name, u.last_name, c.competency_name, a.assessment_id, a.assessment_name, ar.score, ar.date_taken \
+                FROM Users u \
+                LEFT OUTER JOIN Assessment_Results ar \
+                ON u.user_id = ar.user_id \
+                INNER JOIN Assessments a \
+                ON ar.assessment_id = a.assessment_id \
+                INNER JOIN Competencies c \
+                ON a.competency_id = c.competency_id \
+                WHERE u.user_id = ? \
+                ORDER BY ar.date_taken ASC;'
+        rows = cursor.execute(query,values).fetchall()
+        print('''\nResult ID First Name      Last Name       Competency Name         Assessment Name        Score    Date Taken
+-----------------------------------------------------------------------------------------------------------''')
+        for idx in range(len(rows)):
+            first_name, last_name, competency_name, assessment_id, assessment_name, score, date_taken = rows[idx]
+            print(f'{idx + 1:^10}{first_name:<16}{last_name:<16}{competency_name:<24}{assessment_name:<20}{score:^12}{datetime.strftime(datetime.fromtimestamp(date_taken),"%Y-%m-%d"):<15}')
