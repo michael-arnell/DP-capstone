@@ -1,6 +1,6 @@
 To run this application:
     1) Clone the repository to your local machine.
-    2) Navigate to the capstone folder in your terminal.
+    2) Navigate to the DP-capstone folder in your terminal.
     3) Run 'pipenv shell'
     4) Run 'python main.py'
     5) Login to the application with email 'admin@admin.com' with password 'admin'
